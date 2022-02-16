@@ -48,8 +48,13 @@ function getPolitopesKDThatComposePolytopeND(polytopeLists, N, K, index){
 	}
 }
 
-// function triangulateFaces(){}
+function readIntLine(lines, lineNumber){
+	return lines[lineNumber].split(' ').filter(x=>x).map(x => parseInt(x));
+}
 
+function readFloatLine(lines, lineNumber){
+	return lines[lineNumber].split(' ').filter(x=>x).map(x => parseFloat(x));
+}
 
 class ObjectNDManager{
 	readFromNDPFormatStream(fileContent){
@@ -89,13 +94,13 @@ class ObjectNDManager{
 		fileContent = fileContent.trim().split("\n");
 		let currentLineIndex = 0;
 
-		let [startingDimension, finalDimension] = fileContent[currentLineIndex++].split(' ').filter(x=>x).map(x => parseInt(x));
+		let [startingDimension, finalDimension] = readIntLine(fileContent, currentLineIndex++)
 		console.log("startingDimension:", startingDimension);
 		console.log("finalDimension:", finalDimension);
 
 		this.numberOfDimensions = startingDimension;
 
-		let sizeGrid = fileContent[currentLineIndex++].split(' ').filter(x=>x).map(x => parseInt(x));
+		let sizeGrid = readIntLine(fileContent, currentLineIndex++)
 		console.log("sizeGrid:", sizeGrid);
 
 		currentLineIndex++; //skip an empty line
@@ -109,9 +114,8 @@ class ObjectNDManager{
 		}
 
 		let currentPolytope = 0;
-		let labelLine = fileContent[currentLineIndex++].split(' ').filter(x=>x).map(x => parseInt(x));
+		let labelLine = readIntLine(fileContent, currentLineIndex++)
 		var currentPolytopeLabel = labelLine.shift();
-		console.log("Label ", currentPolytopeLabel);
 		while (currentPolytopeLabel !== -1) {
 			console.log("Label ", currentPolytopeLabel);
 
@@ -130,18 +134,18 @@ class ObjectNDManager{
 				console.log("numVertexes ", numVertexes);
 				let mappingOfCurrentPolytopesToGlobal = [];
 				for (let currentVertexIndex = 0; currentVertexIndex < numVertexes; currentVertexIndex++) {
-					let componentLine = fileContent[currentLineIndex++].split(' ').filter(x=>x).map(x => parseFloat(x));
+					let componentLine = readFloatLine(fileContent, currentLineIndex++)
 
-					let componentLabel = [];
-					for (let i = 0; i < finalDimension + 1; i++) {
-						componentLabel.push(componentLine.shift());
+					let currentVertexLine = [];
+					for (let i = 0; i < startingDimension; i++) {
+						currentVertexLine.unshift(componentLine.pop());
 					}
 
-					// We don't actually use the component labels for now
-					// But maybe someday we will
+					// We don't actually use the component labels for now, so they are dropped
+					// But if we ever need to use them, at this point they are stored on what is left of componentLine
 
 					//Reads the vertex
-					let currentVertex = math.matrix(componentLine);
+					let currentVertex = math.matrix(currentVertexLine);
 
 					let vertexName = currentVertex + ''
 					if (!(vertexName in vertexMap)) {
@@ -168,7 +172,7 @@ class ObjectNDManager{
 					let numberOfPolytopesOfCurrentDimension = parseInt(fileContent[currentLineIndex++]);;
 					for (let i = 0; i < numberOfPolytopesOfCurrentDimension; i++) {
 						//Read polytope
-						let facesOfPolytope = fileContent[currentLineIndex++].split(' ').filter(x=>x).map(x => parseInt(x));
+						let facesOfPolytope = readIntLine(fileContent, currentLineIndex++)
 
 						//Transform it to its global indexes
 						let polytopeAfterMapping = [];
@@ -196,7 +200,7 @@ class ObjectNDManager{
 				currentPolytope++;
 			}
 			currentLineIndex++;
-			
+
 			labelLine = fileContent[currentLineIndex++].split(' ').filter(x=>x).map(x => parseInt(x));
 			currentPolytopeLabel = labelLine.shift();
 		}
