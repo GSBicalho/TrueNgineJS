@@ -1,0 +1,23 @@
+#topDIv {
+    float: left;
+    width: 100%;
+}
+#leftColumn {
+    float: left ;
+    width: 250px;
+}
+#middleColumn {
+    float: left;
+    width: 575px;
+    margin-left: 10px;
+}
+#rightColumn {
+    float: left;
+    width: 320px;
+    margin-left: 10px;    
+}
+
+body {
+    background-color: #000000;
+    color: #d4d4d4;
+}
