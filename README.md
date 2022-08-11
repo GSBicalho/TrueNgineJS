@@ -7,4 +7,4 @@ There are currently a couple of kinks (such as face renderization not working) a
 
 Files with polytopes to visualize can be found on the original repo too.
 
-Just download the repo and open index.html and everything should work.
+You can access it [here](https://gsbicalho.github.io/TrueNgineJS/), or just download the repo and open index.html and everything should work.
