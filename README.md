@@ -5,6 +5,6 @@ Documentation and explanation of the project and its purpose can be found in the
 
 There are currently a couple of kinks (such as face renderization not working) and other problems (such as the code being extremely weird because it was an almost line by line translation from C++) but it works well enough.
 
-Files with politopes to vizualise can be found on the original repo too.
+Files with polytopes to visualize can be found on the original repo too.
 
-Just dowload the repo and open index.html and everything should work.
+Just download the repo and open index.html and everything should work.
